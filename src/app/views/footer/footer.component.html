@@ -1,0 +1,42 @@
+<footer class="footer">
+    <div class="container-fluid">
+        <nav class="float-left">
+            <ul>
+                <li>
+                    <a [href]="site">
+                        Наш сайт
+                    </a>
+                </li>
+                <li>
+                    <a (click)="openAboutDialog()" class="link">
+                        О приложении
+                    </a>
+                </li>
+                <li>
+                    <a [href]="blog">
+                        Блог
+                    </a>
+                </li>
+
+                <li>
+                    <a href="http://101112.ru/192"
+                       style="margin-left: 10px; text-decoration: underline; color:white; padding: 5px; padding-left: 7px; padding-right: 7px; background-color: #d65737"
+                       target="_blank">Хотите создать это приложение?</a>
+
+
+                </li>
+
+            </ul>
+        </nav>
+
+
+        <div class="copyright float-right">* Тестовые данные обнуляются при обновлении страницы&nbsp;&nbsp;
+            © {{year | date: 'yyyy'}} <i class="material-icons">favorite</i>
+            <a [href]="site" target="_blank">{{siteName}}</a>
+
+
+        </div>
+    </div>
+
+
+</footer>

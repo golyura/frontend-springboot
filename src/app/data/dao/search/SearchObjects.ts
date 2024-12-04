@@ -1,12 +1,12 @@
 
 // все возможные параметры поиска категорий
 export class CategorySearchValues {
-    title: string = null;
+    text: string = null;
 }
 
 // все возможные параметры поиска приоритетов
 export class PrioritySearchValues {
-    title: string = null;
+    text: string = null;
 }
 
 // все возможные параметры поиска категорий
@@ -17,6 +17,8 @@ export class TaskSearchValues {
     completed: number = null;
     priorityId: number = null;
     categoryId: number = null;
+
+    //постраничность
     pageNumber = 0; // 1-я страница (значение по-умолчанию)
     pageSize = 5; // сколько элементов на странице (значение по-умолчанию)
 

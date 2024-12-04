@@ -7,6 +7,6 @@ import {Observable} from "rxjs";
 export interface PriorityDAO extends CommonDAO<Priority> {
 
     // поиск категорий по любым параметрам, указанных в PrioritySearchValues
-    findPriorities(categorySearchValues: PrioritySearchValues): Observable<any>;
+    findPriorities(prioritySearchValues: PrioritySearchValues): Observable<any>;
 
 }

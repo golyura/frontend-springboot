@@ -37,6 +37,10 @@ import {EditPriorityDialogComponent} from "./dialog/edit-priority-dialog/edit-pr
 import {SidebarModule} from "ng-sidebar";
 import {DeviceDetectorModule} from "ngx-device-detector";
 import {HttpClientModule} from "@angular/common/http";
+import {TASK_URL_TOKEN} from "./data/dao/impl/TaskService";
+import {CATEGORY_URL_TOKEN} from "./data/dao/impl/CategoryService";
+import {PRIORITY_URL_TOKEN} from "./data/dao/impl/PriorityService";
+import {STAT_URL_TOKEN} from "./data/dao/impl/StatService";
 
 registerLocaleData(localeRu);
 
@@ -80,8 +84,32 @@ registerLocaleData(localeRu);
         SidebarModule,
         DeviceDetectorModule.forRoot(),
         HttpClientModule
+    ], providers: [
+
+        {
+            provide: TASK_URL_TOKEN,
+            useValue: 'http://localhost:8080/task'
+        },
+
+        {
+            provide: CATEGORY_URL_TOKEN,
+            useValue: 'http://localhost:8080/category'
+        },
+
+
+        {
+            provide: PRIORITY_URL_TOKEN,
+            useValue: 'http://localhost:8080/priority'
+        },
+
+
+        {
+            provide: STAT_URL_TOKEN,
+            useValue: 'http://localhost:8080/stat'
+        },
+
+
     ],
-    providers: [],
     entryComponents: [
         EditTaskDialogComponent,
         ConfirmDialogComponent,

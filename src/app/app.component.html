@@ -24,16 +24,16 @@
         >
 
             <app-categories
-                    (addCategory)="onAddCategory($event)"
-                    (deleteCategory)="onDeleteCategory($event)"
-                    (searchCategory)="onSearchCategory($event)"
-                    (selectCategory)="onSelectCategory($event)"
-                    (updateCategory)="onUpdateCategory($event)"
-                    [categoryMap]="categoryMap"
+                    (addCategory)="addCategory($event)"
+                    (deleteCategory)="deleteCategory($event)"
+                    (searchCategory)="searchCategory($event)"
+                    (selectCategory)="selectCategory($event)"
+                    (updateCategory)="updateCategory($event)"
+
+
+                    [categories]="categories"
                     [selectedCategory]="selectedCategory"
-
-
-                    [uncompletedTotal]="uncompletedTotalTasksCount"
+                    [uncompletedCountForCategoryAll]="uncompletedCountForCategoryAll"
             ></app-categories>
 
         </div>
@@ -52,14 +52,14 @@
 
                 <!--    навигация с шапкой и списком категорий-->
 
-                <app-header
-                        (toggleMenu)="toggleMenu()"
-                        (toggleStat)="toggleStat($event)"
-                        [categoryName]="selectedCategory ? selectedCategory.title: 'Все'"
-                        [showStat]="showStat"
+<!--                <app-header-->
+<!--                        (toggleMenu)="toggleMenu()"-->
+<!--                        (toggleStat)="toggleStat($event)"-->
+<!--                        [categoryName]="selectedCategory ? selectedCategory.title: 'Все'"-->
+<!--                        [showStat]="showStat"-->
 
 
-                ></app-header>
+<!--                ></app-header>-->
 
 
             </nav>
@@ -71,12 +71,12 @@
                          data-position='top'
                          data-step="2">
                         <!-- статистика -->
-                        <app-stat
-                                [completeTasksInCategory]="completedCountInCategory"
-                                [showStat]="showStat"
-                                [totalTasksInCategory]="totalTasksCountInCategory"
-                                [uncompleteTasksInCategory]="uncompletedCountInCategory"
-                        ></app-stat>
+<!--                        <app-stat-->
+<!--                                [completeTasksInCategory]="completedCountInCategory"-->
+<!--                                [showStat]="showStat"-->
+<!--                                [totalTasksInCategory]="totalTasksCountInCategory"-->
+<!--                                [uncompleteTasksInCategory]="uncompletedCountInCategory"-->
+<!--                        ></app-stat>-->
 
                     </div>
 
@@ -84,23 +84,23 @@
 
                         <div class="col-12">
 
-                            <app-tasks
-                                    (addTask)="onAddTask($event)"
-                                    (deleteTask)="onDeleteTask($event)"
-                                    (filterByPriority)="onFilterTasksByPriority($event)"
-                                    (filterByStatus)="onFilterTasksByStatus($event)"
+<!--                            <app-tasks-->
+<!--                                    (addTask)="onAddTask($event)"-->
+<!--                                    (deleteTask)="onDeleteTask($event)"-->
+<!--                                    (filterByPriority)="onFilterTasksByPriority($event)"-->
+<!--                                    (filterByStatus)="onFilterTasksByStatus($event)"-->
 
 
-                                    (filterByTitle)="onSearchTasks($event)"
-                                    (selectCategory)="onSelectCategory($event)"
-                                    (updateTask)="onUpdateTask($event)"
-                                    [priorities]="priorities"
+<!--                                    (filterByTitle)="onSearchTasks($event)"-->
+<!--                                    (selectCategory)="onSelectCategory($event)"-->
+<!--                                    (updateTask)="onUpdateTask($event)"-->
+<!--                                    [priorities]="priorities"-->
 
-                                    [selectedCategory]="selectedCategory"
-                                    [tasks]="tasks"
+<!--                                    [selectedCategory]="selectedCategory"-->
+<!--                                    [tasks]="tasks"-->
 
 
-                            ></app-tasks>
+<!--                            ></app-tasks>-->
                         </div>
                     </div>
                 </div>

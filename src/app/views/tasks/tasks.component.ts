@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {DataHandlerService} from "../../service/data-handler.service";
 import {Task} from 'src/app/model/Task';
 import { MatTableDataSource } from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
@@ -60,7 +59,6 @@ export class TasksComponent implements OnInit {
     priorities: Priority[]; // список приоритетов (для фильтрации задач)
 
     constructor(
-        private dataHandler: DataHandlerService, // доступ к данным
         private  dialog: MatDialog, // работа с диалоговыми окнами (показать, закрыть)
         private  deviceService: DeviceDetectorService // для определения типа устройства
     ) {

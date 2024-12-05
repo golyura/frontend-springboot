@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {DataHandlerService} from "../../service/data-handler.service";
 import {Category} from "../../model/Category";
 import {EditCategoryDialogComponent} from "../../dialog/edit-category-dialog/edit-category-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
@@ -13,15 +12,20 @@ import {DeviceDetectorService} from "ngx-device-detector";
 })
 export class CategoriesComponent implements OnInit {
 
+    // категории с кол-вом активных задач для каждой из них
+    @Input('categories')
+    set setCategories(categories: Category[]) {
+        this.categories = categories;
+        console.log(categories);
+    }
 
     @Input()
     selectedCategory: Category;
 
-    categoryMap: Map<Category, number>; // список всех категорий и кол-во активных задач
-
     // кол-во невыполненных задач всего
     @Input()
-    uncompletedTotal: number;
+    uncompletedCountForCategoryAll: number;
+
 
     // выбрали категорию из списка
     @Output()
@@ -46,6 +50,8 @@ export class CategoriesComponent implements OnInit {
 
     isMobile: boolean;
 
+    categories: Category[]; // список всех категорий и кол-во активных задач
+
 
     // для отображения иконки редактирования при наведении на категорию
     indexMouseMove: number;
@@ -53,7 +59,6 @@ export class CategoriesComponent implements OnInit {
     isTablet: boolean;
 
     constructor(
-        private dataHandler: DataHandlerService,
         private dialog: MatDialog, // внедряем MatDialog, чтобы работать с диалоговыми окнами
         private deviceService: DeviceDetectorService // для определения типа устройства
 
@@ -61,12 +66,6 @@ export class CategoriesComponent implements OnInit {
         this.isMobile = deviceService.isMobile();
         this.isTablet = deviceService.isTablet();
 
-    }
-
-    // категории с кол-вом активных задач для каждой из них
-    @Input('categoryMap')
-    set setCategoryMap(categoryMap: Map<Category, number>) {
-        this.categoryMap = categoryMap;
     }
 
     // метод вызывается автоматически после инициализации компонента

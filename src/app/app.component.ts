@@ -7,6 +7,7 @@ import {concatMap, map} from "rxjs/operators";
 import {IntroService} from "./service/intro.service";
 import {DeviceDetectorService} from "ngx-device-detector";
 import {CategoryService} from "./data/dao/impl/CategoryService";
+import {CategorySearchValues} from "./data/dao/search/SearchObjects";
 
 @Component({
     selector: 'app-root',
@@ -90,7 +91,7 @@ export class AppComponent implements OnInit {
 
         this.categoryService.findAll().subscribe(result => {
             this.categories = result;
-        } )
+        })
 
         // if (this.categoryMap) {
         //     this.categoryMap.clear();
@@ -107,7 +108,11 @@ export class AppComponent implements OnInit {
     }
 
     // поиск категории
-    searchCategory(title: string): void {
+    searchCategory(categorySearchValues: CategorySearchValues): void {
+
+        this.categoryService.findCategories(categorySearchValues).subscribe(result => {
+            this.categories = result;
+        })
 
         // this.searchCategoryText = title;
 

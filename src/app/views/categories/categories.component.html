@@ -24,29 +24,40 @@
                 <mat-form-field class="example-full-width">
                     <input
 
-                        #inputSearchCategory
+                            matInput
+                            maxlength="256"
+                            placeholder="Поиск категорий"
 
-                        (keydown.escape)="searchCategoryTitle = ''; search()"
-                        (keyup)="search()"
-                        [(ngModel)]="searchCategoryTitle"
+                            [(ngModel)]="filterTitle"
+                            (ngModelChange)="this.checkFilterChanged()"
 
-                        matInput
-                        maxlength="256"
-                        placeholder="Поиск категорий"
+
+                            (keydown.escape)="clearAndSearch()"
 
                     />
 
                     <button
-                            (click)="searchCategoryTitle = ''; search()"
-                            *ngIf="inputSearchCategory.value.trim().length > 0" aria-label="Clear"
-                            class="search-category-button size25 gray"
-                            mat-button
+                            *ngIf="filterTitle && filterTitle.trim().length > 0"
+                            mat-button matSuffix mat-icon-button
+                            aria-label="Clear"
 
-                            mat-icon-button
+                            class="search-category-button"
 
-                            matSuffix
+                            (click)="clearAndSearch()"
                     >
                         <mat-icon>clear</mat-icon>
+                    </button>
+
+                    <button
+                            *ngIf="filterTitle && filterTitle.trim().length > 0"
+
+                            mat-button matSuffix mat-icon-button
+                            (click)="search()"
+
+                            [ngClass]="{'blink-button': filterChanged}"
+
+                    >
+                        <mat-icon>search</mat-icon>
                     </button>
 
                 </mat-form-field>

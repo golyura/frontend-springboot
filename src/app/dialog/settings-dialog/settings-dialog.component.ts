@@ -17,7 +17,7 @@ export class SettingsDialogComponent implements OnInit {
     priorities: Priority[];
 
     constructor(
-        private  dialogRef: MatDialogRef<SettingsDialogComponent>, // для возможности работы с текущим диалог. окном
+        private  dialogRef: MatDialogRef<SettingsDialogComponent> // для возможности работы с текущим диалог. окном
     ) {
     }
 

@@ -1,9 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Category} from "../../model/Category";
-import {EditCategoryDialogComponent} from "../../dialog/edit-category-dialog/edit-category-dialog.component";
-import {MatDialog} from "@angular/material/dialog";
-import {OperType} from "../../dialog/OperType";
-import {DeviceDetectorService} from "ngx-device-detector";
+import {Category} from '../../model/Category';
+import {DeviceDetectorService} from 'ngx-device-detector';
+import {MatDialog} from '@angular/material/dialog';
 import {CategorySearchValues} from "../../data/dao/search/SearchObjects";
 
 @Component({
@@ -11,6 +9,10 @@ import {CategorySearchValues} from "../../data/dao/search/SearchObjects";
     templateUrl: './categories.component.html',
     styleUrls: ['./categories.component.css']
 })
+
+// "presentational component": отображает полученные данные и отправляет какие-либо действия обработчику
+// назначение - работа с категориями
+// класс не видит dataHandler, т.к. напрямую с ним не должен работать
 export class CategoriesComponent implements OnInit {
 
     // компонент взаимодействует с "внешним миром" только через @Input() и @Output !!!
@@ -24,7 +26,7 @@ export class CategoriesComponent implements OnInit {
     // ----------------------- входящие параметры ----------------------------
 
     // сеттеры используются для доп. функционала - чтобы при изменении значения вызывать нужные методы
-    // а так можно использовать и обычные переменные
+    // а так можно использовать и обычные переменныые
 
     // выбранная категория для отображения
 
@@ -164,6 +166,4 @@ export class CategoriesComponent implements OnInit {
         return this.filterChanged;
 
     }
-
-
 }

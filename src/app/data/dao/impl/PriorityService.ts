@@ -1,19 +1,16 @@
 import {Inject, Injectable, InjectionToken} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-
 import {CommonService} from './CommonService';
-import {CategorySearchValues} from "../search/SearchObjects";
-import {Category} from "../../../model/Category";
 import {Priority} from "../../../model/Priority";
 import {PriorityDAO} from "../interface/PriorityDAO";
+import {CategorySearchValues} from "../search/SearchObjects";
+import {Category} from "../../../model/Category";
 
 // глобальная переменная для хранения URL
 export const PRIORITY_URL_TOKEN = new InjectionToken<string>('url');
 
 // класс реализовывает методы доступа к данным с помощью RESTful запросов в формате JSON
 // напоминает паттер Фасад (Facade) - выдает только то, что нужно для функционала
-
-// JSON формируется автоматически для параметров и результатов
 
 @Injectable({
   providedIn: 'root'

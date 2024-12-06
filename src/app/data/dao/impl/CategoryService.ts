@@ -10,7 +10,7 @@ import {CategorySearchValues} from "../search/SearchObjects";
 export const CATEGORY_URL_TOKEN = new InjectionToken<string>('url');
 
 // класс реализовывает методы доступа к данным с помощью RESTful запросов в формате JSON
-// напоминает паттерн Фасад (Facade) - выдает только то, что нужно для функционала
+// напоминает паттер Фасад (Facade) - выдает только то, что нужно для функционала
 
 // JSON формируется автоматически для параметров и результатов
 

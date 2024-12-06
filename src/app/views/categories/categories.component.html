@@ -71,7 +71,10 @@
             </div>
 
             <!-- виртуальная категория 'Все'-->
-            <li class="nav-item category" [class.active]="selectedCategory === null">
+            <li class="nav-item category" [class.active]="selectedCategory === null"
+                (click)="showCategory(null)"
+
+            >
 
                 <a class="nav-link">
 
@@ -98,9 +101,12 @@
 
                     [class.active]="(selectedCategory && category) && category.id === selectedCategory.id"
 
-                    (click)="showCategory(category)"
+
                     (mouseleave)="showEditIcon(false, index)"
                     (mouseenter)="showEditIcon(true, index)"
+
+                    (click)="showCategory(category)"
+
 
                     class="nav-item category"
             >

@@ -1,5 +1,6 @@
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {Component, Inject, OnInit} from '@angular/core';
+import {DialogAction, DialogResult} from '../../object/DialogResult';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
     selector: 'app-confirm-dialog',
@@ -13,8 +14,8 @@ export class ConfirmDialogComponent implements OnInit {
     message: string;
 
     constructor(
-        private  dialogRef: MatDialogRef<ConfirmDialogComponent>, // для работы с текущим диалог. окном
-        @Inject(MAT_DIALOG_DATA) private  data: { dialogTitle: string, message: string } // данные, которые передали в диалоговое окно
+        private dialogRef: MatDialogRef<ConfirmDialogComponent>, // для работы с текущим диалог. окном
+        @Inject(MAT_DIALOG_DATA) private data: { dialogTitle: string, message: string } // данные, которые передали в диалоговое окно
     ) {
         this.dialogTitle = data.dialogTitle; // заголовок
         this.message = data.message; // сообщение
@@ -24,13 +25,13 @@ export class ConfirmDialogComponent implements OnInit {
     }
 
     // нажали ОК
-    onConfirm(): void {
-        this.dialogRef.close(true);
+    confirm(): void {
+        this.dialogRef.close(new DialogResult(DialogAction.OK));
     }
 
     // нажали отмену
-    onCancel(): void {
-        this.dialogRef.close(false);
+    cancel(): void {
+        this.dialogRef.close(new DialogResult(DialogAction.CANCEL));
     }
 }
 

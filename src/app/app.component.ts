@@ -2,14 +2,15 @@ import {Component, OnInit} from '@angular/core';
 import {DeviceDetectorService} from 'ngx-device-detector';
 import {MatDialog} from '@angular/material/dialog';
 import {PageEvent} from '@angular/material/paginator';
-import { Task } from 'src/app/model/Task';
+import {Task} from 'src/app/model/Task';
 import {Category} from "./model/Category";
 import {CategorySearchValues, TaskSearchValues} from "./data/dao/search/SearchObjects";
 import {IntroService} from "./service/intro.service";
 import {TaskService} from "./data/dao/impl/TaskService";
 import {CategoryService} from "./data/dao/impl/CategoryService";
 import {Observable} from "rxjs";
-
+import {Priority} from "./model/Priority";
+import {PriorityService} from "./data/dao/impl/PriorityService";
 
 
 @Component({
@@ -31,12 +32,13 @@ export class AppComponent implements OnInit {
     isTablet: boolean;
 
 
-    showStat: boolean;   // показать/скрыть статистику
     showSearch: boolean;  // показать/скрыть поиск
 
 
     tasks: Task[]; // текущие задачи для отображения на странице
     categories: Category[]; // категории для отображения
+    priorities: Priority[]; // приоритеты для отображения и фильтрации
+
 
 
     // параметры бокового меню с категориями
@@ -62,15 +64,11 @@ export class AppComponent implements OnInit {
         // сервисы для работы с данными (фасад)
         private taskService: TaskService,
         private categoryService: CategoryService,
+        private priorityService: PriorityService,
         private dialog: MatDialog, // работа с диалог. окнами
         private introService: IntroService, // вводная справоч. информация с выделением областей
         private deviceService: DeviceDetectorService // для определения типа устройства (моб., десктоп, планшет)
     ) {
-
-
-
-
-
 
 
         // определяем тип устройства
@@ -84,7 +82,6 @@ export class AppComponent implements OnInit {
 
 
     ngOnInit(): void {
-
 
 
         // для мобильных и планшетов - не показывать интро
@@ -103,17 +100,24 @@ export class AppComponent implements OnInit {
 
         });
 
+        // заполнить приоритеты
+        this.fillAllPriorities();
+
 
     }
 
+    // заполняет массив приоритетов
+    fillAllPriorities() {
+        this.priorityService.findAll().subscribe(result => {
+            this.priorities = result;
+        });
+    }
 
 
     // заполняет массив категорий
     fillAllCategories(): Observable<Category[]> {
         return this.categoryService.findAll();
     }
-
-
 
 
     // выбрали/изменили категорию
@@ -176,13 +180,22 @@ export class AppComponent implements OnInit {
 
     }
 
-    h
+
 
     // поиск задач
     searchTasks(searchTaskValues: TaskSearchValues) {
         this.taskSearchValues = searchTaskValues;
 
         this.taskService.findTasks(this.taskSearchValues).subscribe(result => {
+
+            // Если выбранная страница для отображения больше, чем всего страниц - заново делаем поиск и показываем 1ю страницу.
+            // Если пользователь был например на 2й странице общего списка и выполнил новый поиск, в результате которого доступна только 1 страница,
+            // то нужно вызвать поиск заново с показом 1й страницы (индекс 0)
+            if (result.totalPages > 0 && this.taskSearchValues.pageNumber >= result.totalPages) {
+                this.taskSearchValues.pageNumber = 0;
+                this.searchTasks(this.taskSearchValues);
+            }
+
             this.totalTasksFounded = result.totalElements; // сколько данных показывать на странице
             this.tasks = result.content; // массив задач
         });
@@ -191,10 +204,8 @@ export class AppComponent implements OnInit {
     }
 
 
-
     // добавление задачи
     addTask(task: Task) {
-
 
 
     }
@@ -204,13 +215,11 @@ export class AppComponent implements OnInit {
     deleteTask(task: Task) {
 
 
-
     }
 
 
     // обновление задачи
     updateTask(task: Task) {
-
 
 
     }
@@ -263,8 +272,11 @@ export class AppComponent implements OnInit {
     }
 
 
+    // показать-скрыть поиск
 
-
+    toggleSearch(showSearch: boolean) {
+        this.showSearch = showSearch;
+    }
 
 
 }

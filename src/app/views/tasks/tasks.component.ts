@@ -45,13 +45,6 @@ export class TaskListComponent implements OnInit {
         this.assignTableSource();   // передать данные таблице для отображения задач
     }
 
-    // приоритеты для фильтрации и выбора при редактировании/создании задачи (выпадающий список)
-    @Input('priorities')
-    set setPriorities(priorities: Priority[]) {
-        this.priorities = priorities;
-    }
-
-
     // все возможные параметры для поиска задач
     @Input('taskSearchValues')
     set setTaskSearchValues(taskSearchValues: TaskSearchValues) {
@@ -60,6 +53,17 @@ export class TaskListComponent implements OnInit {
         this.initSortDirectionIcon(); // показать правильную иконку (убывание, возрастание)
     }
 
+    // приоритеты для фильтрации и выбора при редактировании/создании задачи (выпадающий список)
+    @Input('priorities')
+    set setPriorities(priorities: Priority[]) {
+        this.priorities = priorities;
+    }
+
+    // категории при редактировании/создании задачи (выпадающий список)
+    @Input('categories')
+    set setCategories(categories: Category[]) {
+        this.categories = categories;
+    }
 
 
     // ----------------------- исходящие действия----------------------------
@@ -89,6 +93,8 @@ export class TaskListComponent implements OnInit {
 
 
     priorities: Priority[]; // список приоритетов (для фильтрации задач, для выпадающих списков)
+    categories: Category[]; // список категорий
+
     tasks: Task[]; // текущий список задач для отображения
 
     // поля для таблицы (те, что отображают данные из задачи - должны совпадать с названиями переменных класса)
@@ -152,7 +158,25 @@ export class TaskListComponent implements OnInit {
     // диалоговое окно для добавления задачи
     openAddDialog() {
 
+        const task = new Task(null, '', 0, null, this.selectedCategory);
 
+        const dialogRef = this.dialog.open(EditTaskDialogComponent, {
+
+            // передаем новый пустой объект  для заполнения
+            // также передаем справочные даныне (категории, приоритеты)
+            data: [task, 'Добавление задачи', this.categories, this.priorities]
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+
+            if (!(result)) { // если просто закрыли окно, ничего не нажав
+                return;
+            }
+
+            if (result.action === DialogAction.SAVE) { // если нажали ОК
+                this.addTask.emit(task);
+            }
+        });
 
     }
 
@@ -160,20 +184,79 @@ export class TaskListComponent implements OnInit {
     openEditDialog(task: Task): void {
 
 
+        const dialogRef = this.dialog.open(EditTaskDialogComponent, {
+            data: [task, 'Редактирование задачи', this.categories, this.priorities],
+            autoFocus: false
+        });
 
+        dialogRef.afterClosed().subscribe(result => {
+
+
+            if (!(result)) { // если просто закрыли окно, ничего не нажав
+                return;
+            }
+
+
+            if (result.action === DialogAction.DELETE) {
+                this.deleteTask.emit(task);
+                return;
+            }
+
+            if (result.action === DialogAction.COMPLETE) {
+                task.completed = 1; // ставим статус задачи как выполненная
+                this.updateTask.emit(task);
+            }
+
+
+            if (result.action === DialogAction.ACTIVATE) {
+                task.completed = 0; // возвращаем статус задачи как невыполненная
+                this.updateTask.emit(task);
+                return;
+            }
+
+            if (result.action === DialogAction.SAVE) { // если нажали ОК и есть результат
+                this.updateTask.emit(task);
+                return;
+            }
+
+
+        });
     }
 
 
     // диалоговое окно подтверждения удаления
     openDeleteDialog(task: Task) {
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+            maxWidth: '500px',
+            data: {dialogTitle: 'Подтвердите действие', message: `Вы действительно хотите удалить задачу: "${task.title}"?`},
+            autoFocus: false
+        });
 
+        dialogRef.afterClosed().subscribe(result => {
+
+
+            if (!(result)) { // если просто закрыли окно, ничего не нажав
+                return;
+            }
+
+
+            if (result.action === DialogAction.OK) { // если нажали ОК
+                this.deleteTask.emit(task);
+            }
+        });
     }
 
 
     // нажали/отжали выполнение задачи
     onToggleCompleted(task: Task) {
 
+        if (task.completed === 0) {
+            task.completed = 1;
+        } else {
+            task.completed = 0;
+        }
 
+        this.updateTask.emit(task);
     }
 
 
@@ -232,6 +315,7 @@ export class TaskListComponent implements OnInit {
     checkFilterChanged() {
 
         this.changed = false;
+
 
         // поочередно проверяем все фильтры (текущее введенное значение с последним сохраненным)
         if (this.taskSearchValues.title !== this.filterTitle) {
